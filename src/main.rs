@@ -1,28 +1,28 @@
 use anyhow::{anyhow, Result};
-use env_logger::Env;
-use clap::{Arg, Command, ArgAction, ArgMatches, crate_version};
-use std::path::PathBuf;
-use std::io::{BufReader, BufRead, BufWriter};
-use std::fs::File;
-use std::convert::From;
-use std::collections::{BTreeSet, HashMap};
-use tokio::runtime::Runtime;
-use std::sync::Arc;
-use rust_embed::RustEmbed;
-use tera::{Tera, Context};
 use chrono::prelude::*;
+use clap::{crate_version, Arg, ArgAction, ArgMatches, Command};
+use env_logger::Env;
+use rust_embed::RustEmbed;
 use serde::Serialize;
+use std::collections::{BTreeSet, HashMap};
+use std::convert::From;
+use std::fs::File;
+use std::io::{BufRead, BufReader, BufWriter};
+use std::path::PathBuf;
+use std::sync::Arc;
+use tera::{Context, Tera};
+use tokio::runtime::Runtime;
 
 mod config;
-mod utils;
 mod scan;
 mod ssh;
 mod tls;
 mod tlsconstants;
+mod utils;
 
-use crate::utils::{Target, parse_single_target};
 use crate::config::Config;
-use crate::scan::{Scan, ScanType, ScanOptions, ScanResult, scan_runner};
+use crate::scan::{scan_runner, Scan, ScanOptions, ScanResult, ScanType};
+use crate::utils::{parse_single_target, Target};
 
 #[derive(RustEmbed)]
 #[folder = "$CARGO_MANIFEST_DIR/support/templates/"]
@@ -31,15 +31,13 @@ struct EmbeddedResources;
 const DEFAULT_NUM_THREADS: usize = 8;
 
 fn output_args(file_type: &str, req: bool) -> Vec<clap::Arg> {
-    vec![
-        Arg::new("output")
-            .short('o')
-            .value_name("FILE")
-            .long("output")
-            .help(format!("{} file to write results to", file_type))
-            .required(req)
-            .action(ArgAction::Set),
-    ]
+    vec![Arg::new("output")
+        .short('o')
+        .value_name("FILE")
+        .long("output")
+        .help(format!("{} file to write results to", file_type))
+        .required(req)
+        .action(ArgAction::Set)]
 }
 
 fn num_threads_arg() -> clap::Arg {
@@ -72,9 +70,7 @@ fn target_args() -> Vec<clap::Arg> {
 
 fn get_targets(matches: &ArgMatches, default_port: Option<u16>) -> Result<Vec<Target>> {
     match matches.get_one::<String>("target") {
-        Some(t) => {
-            Ok(vec![parse_single_target(t, default_port)?])
-        },
+        Some(t) => Ok(vec![parse_single_target(t, default_port)?]),
         None => {
             let f = matches.get_one::<PathBuf>("target-list");
             if f.is_none() {
@@ -95,9 +91,7 @@ fn get_targets(matches: &ArgMatches, default_port: Option<u16>) -> Result<Vec<Ta
                 }
 
                 match parse_single_target(&line, default_port) {
-                    Ok(t) => {
-                        targets.push(t)
-                    },
+                    Ok(t) => targets.push(t),
                     Err(e) => {
                         return Err(anyhow!("Parsing line {line_no} ({line}) failed. {e}"));
                     }
@@ -122,17 +116,18 @@ struct ReportResults {
     ssh_fail_count: usize,
     ssh_pqc_supported_count: usize,
     ssh_total_count: usize,
-    scan_windows: Vec<ScanWindow>
+    scan_windows: Vec<ScanWindow>,
 }
 
 #[derive(Serialize)]
 struct ScanWindow {
     start_time: DateTime<Utc>,
     end_time: DateTime<Utc>,
-    scan_type: ScanType
+    scan_type: ScanType,
 }
 
 fn create_report(output_file: &str, input_files: &Vec<&String>) -> Result<()> {
+    log::debug!("Initializing report data structures");
     let mut tls_map: HashMap<String, Vec<ScanResult>> = HashMap::new();
     let mut ssh_map: HashMap<String, Vec<ScanResult>> = HashMap::new();
     let mut tls_hosts: BTreeSet<String> = BTreeSet::new();
@@ -152,7 +147,12 @@ fn create_report(output_file: &str, input_files: &Vec<&String>) -> Result<()> {
         let scan: Scan = serde_json::from_reader(file).expect("failed to open input file");
 
         if scan.version != crate_version!() {
-            let err = format!("Version mismatch: {} != {} in {}", scan.version, crate_version!(), input_file);
+            let err = format!(
+                "Version mismatch: {} != {} in {}",
+                scan.version,
+                crate_version!(),
+                input_file
+            );
             log::warn!("{}", err);
             return Err(anyhow!(err));
         }
@@ -160,13 +160,18 @@ fn create_report(output_file: &str, input_files: &Vec<&String>) -> Result<()> {
         let window = ScanWindow {
             start_time: scan.start_time,
             end_time: scan.end_time,
-            scan_type: scan.scan_type
+            scan_type: scan.scan_type,
         };
         scan_windows.push(window);
 
         for result in scan.results {
             match result {
-                ScanResult::Ssh {ref targetspec, ref error, pqc_supported, ..} => {
+                ScanResult::Ssh {
+                    ref targetspec,
+                    ref error,
+                    pqc_supported,
+                    ..
+                } => {
                     ssh_hosts.insert(targetspec.host.clone());
                     let host = targetspec.host.clone();
                     if ssh_map.get(&host).is_none() {
@@ -180,9 +185,14 @@ fn create_report(output_file: &str, input_files: &Vec<&String>) -> Result<()> {
                         ssh_pqc_supported_count += 1;
                     }
                     ssh_total_count += 1;
-                    m.push(result);                    
-                },
-                ScanResult::Tls {ref targetspec, ref error, pqc_supported, ..} => {
+                    m.push(result);
+                }
+                ScanResult::Tls {
+                    ref targetspec,
+                    ref error,
+                    pqc_supported,
+                    ..
+                } => {
                     tls_hosts.insert(targetspec.host.clone());
                     let host = targetspec.host.clone();
                     if tls_map.get(&host).is_none() {
@@ -197,18 +207,35 @@ fn create_report(output_file: &str, input_files: &Vec<&String>) -> Result<()> {
                     }
                     tls_total_count += 1;
                     m.push(result);
-                },
-                _ => { 
+                }
+                _ => {
                     panic!("Unexpected result type");
                 }
             }
         }
     }
 
-    log::debug!("{} TLS results, {} SSH results", tls_map.len(), ssh_map.len());
+    log::debug!(
+        "{} TLS results, {} SSH results",
+        tls_map.len(),
+        ssh_map.len()
+    );
 
     let tls_fail_count = tls_total_count - tls_success_count;
     let ssh_fail_count = ssh_total_count - ssh_success_count;
+
+    log::debug!(
+        "TLS: {} successful, {} failed, {} PQC-enabled",
+        tls_success_count,
+        tls_fail_count,
+        tls_pqc_supported_count
+    );
+    log::debug!(
+        "SSH: {} successful, {} failed, {} PQC-enabled",
+        ssh_success_count,
+        ssh_fail_count,
+        ssh_pqc_supported_count
+    );
 
     let results: ReportResults = ReportResults {
         tls_results: tls_map,
@@ -223,12 +250,19 @@ fn create_report(output_file: &str, input_files: &Vec<&String>) -> Result<()> {
         ssh_fail_count: ssh_fail_count,
         ssh_pqc_supported_count: ssh_pqc_supported_count,
         ssh_total_count: ssh_total_count,
-        scan_windows: scan_windows
+        scan_windows: scan_windows,
     };
 
-    let templates = ["macros.html", "template.html", "ssh_results.html", "tls_results.html", "summary.html"];
+    let templates = [
+        "macros.html",
+        "template.html",
+        "ssh_results.html",
+        "tls_results.html",
+        "summary.html",
+    ];
     let mut tera = Tera::default();
 
+    log::debug!("Loading HTML templates");
     for template in templates {
         let html_file = EmbeddedResources::get(template).unwrap();
         let html_data = std::str::from_utf8(html_file.data.as_ref())?;
@@ -236,21 +270,24 @@ fn create_report(output_file: &str, input_files: &Vec<&String>) -> Result<()> {
     }
 
     let mut ctx = Context::from_serialize(results)?;
-    
+
     let dt = Utc::now().format("%Y-%m-%d %H:%M:%S %Z").to_string();
     ctx.insert("title", &dt);
 
     log::trace!("Tera Template: {:?}", ctx);
 
+    log::debug!("Rendering HTML report to {}", output_file);
     let f = File::create(output_file)?;
     tera.render_to("template.html", &ctx, f)?;
+    log::info!("HTML report written to {}", output_file);
 
     Ok(())
 }
 
-
 fn main() -> Result<()> {
     env_logger::Builder::from_env(Env::default().default_filter_or("info")).init();
+
+    log::info!("PQCscan {} starting", crate_version!());
 
     let matches = Command::new("pqcscan")
         .version(crate_version!())
@@ -258,9 +295,10 @@ fn main() -> Result<()> {
         .subcommand_required(true)
         .arg_required_else_help(true)
         .about("Post-Quantum Cryptography Scanner - Scan SSH/TLS servers for PQC support")
-        .after_help("PQCscan is free BSD-licensed software by Anvil Secure Inc (https://anvilsecure.com).")
+        .after_help(
+            "PQCscan is free BSD-licensed software by Anvil Secure Inc (https://anvilsecure.com).",
+        )
         .flatten_help(true)
-
         .subcommand(
             Command::new("ssh-scan")
                 .about("Scan SSH servers")
@@ -271,7 +309,7 @@ fn main() -> Result<()> {
                 .next_help_heading("Scan Options")
                 .args(vec![num_threads_arg()])
                 .disable_help_flag(true)
-                .disable_version_flag(true)
+                .disable_version_flag(true),
         )
         .subcommand(
             Command::new("tls-scan")
@@ -281,83 +319,130 @@ fn main() -> Result<()> {
                 .next_help_heading("Output")
                 .args(output_args("JSON", false))
                 .next_help_heading("Scan Options")
-                .args(vec![num_threads_arg(),
+                .args(vec![
+                    num_threads_arg(),
                     Arg::new("only-hybrid-algos")
                         .long("only-hybrid-algos")
                         .required(false)
                         .action(ArgAction::SetTrue)
-                        .help("Limit scan to PQC hybrid algorithms only")
+                        .help("Limit scan to PQC hybrid algorithms only"),
+                    Arg::new("test-nonpqc-algos")
+                        .long("test-nonpqc-algos")
+                        .required(false)
+                        .action(ArgAction::SetTrue)
+                        .help("Test non-PQC algorithms in the scan"),
                 ])
                 .disable_help_flag(true)
-                .disable_version_flag(true)
+                .disable_version_flag(true),
         )
         .subcommand(
             Command::new("create-report")
                 .about("Convert JSON results to HTML report")
                 .next_help_heading("Input")
-                .args(vec![
-                    Arg::new("input")
-                        .short('i')
-                        .long("input")
-                        .value_name("JSON file")
-                        .help("JSON file(s) containing scan results ")
-                        .num_args(0..)
-                ])
+                .args(vec![Arg::new("input")
+                    .short('i')
+                    .long("input")
+                    .value_name("JSON file")
+                    .help("JSON file(s) containing scan results ")
+                    .num_args(0..)])
                 .next_help_heading("Output")
                 .args(output_args("HTML", true))
                 .disable_help_flag(true)
-                .disable_version_flag(true)
+                .disable_version_flag(true),
         )
         .get_matches();
 
     let config = Config::new();
 
+    log::debug!(
+        "Configuration loaded: connection_timeout={}s, read_timeout={}s",
+        config.connection_timeout,
+        config.read_timeout
+    );
+
     let mut scan = ScanOptions {
         num_threads: DEFAULT_NUM_THREADS,
         targets: vec![],
         scan_type: None,
-        scan_hybrid_algos_only: false
+        scan_hybrid_algos_only: false,
+        scan_nonpqc_algos: false,
     };
 
     let mut output_json_file: Option<&String> = None;
 
     match matches.subcommand() {
         Some(("tls-scan", sub_matches)) => {
+            log::info!("Starting TLS scan");
             scan.targets = get_targets(sub_matches, Some(config.tls_config.default_port))?;
+            log::info!("Loaded {} target(s) for TLS scan", scan.targets.len());
             scan.scan_type = Some(ScanType::Tls);
-            scan.scan_hybrid_algos_only = *sub_matches.get_one::<bool>("only-hybrid-algos").unwrap();
+            scan.scan_hybrid_algos_only =
+                *sub_matches.get_one::<bool>("only-hybrid-algos").unwrap();
+            if scan.scan_hybrid_algos_only {
+                log::info!("Scanning for hybrid algorithms only");
+            }
+            scan.scan_nonpqc_algos = *sub_matches.get_one::<bool>("test-nonpqc-algos").unwrap();
+            if scan.scan_nonpqc_algos {
+                log::info!("Including non-PQC algorithms in the scan");
+            }
             scan.num_threads = *sub_matches.get_one::<usize>("num-threads").unwrap();
+            log::info!("Using {} thread(s)", scan.num_threads);
             output_json_file = sub_matches.get_one::<String>("output");
-        },
+        }
         Some(("ssh-scan", sub_matches)) => {
+            log::info!("Starting SSH scan");
             scan.targets = get_targets(sub_matches, Some(config.ssh_config.default_port))?;
+            log::info!("Loaded {} target(s) for SSH scan", scan.targets.len());
             scan.scan_type = Some(ScanType::Ssh);
             scan.num_threads = *sub_matches.get_one::<usize>("num-threads").unwrap();
+            log::info!("Using {} thread(s)", scan.num_threads);
             output_json_file = sub_matches.get_one::<String>("output");
-        },
-        Some(("create-report", sub_matches)) => {
-            let input_files: Vec<_> = sub_matches.get_many::<String>("input").
-                ok_or(anyhow!("Need at least one input JSON file to convert into a report"))?.collect();
-            create_report(sub_matches.get_one::<String>("output").unwrap(), &input_files)?;
         }
-        _ => unreachable!("somehow reached this")
+        Some(("create-report", sub_matches)) => {
+            log::info!("Creating HTML report from JSON results");
+            let input_files: Vec<_> = sub_matches
+                .get_many::<String>("input")
+                .ok_or(anyhow!(
+                    "Need at least one input JSON file to convert into a report"
+                ))?
+                .collect();
+            log::info!("Processing {} input file(s)", input_files.len());
+            create_report(
+                sub_matches.get_one::<String>("output").unwrap(),
+                &input_files,
+            )?;
+            log::info!("Report created successfully");
+        }
+        _ => unreachable!("somehow reached this"),
     }
 
     /* perform scan if requested */
     if scan.scan_type.is_some() {
+        log::info!("Initializing async runtime");
         let rt = Runtime::new()?;
 
+        log::info!("Starting scan execution");
         let results = rt.block_on(scan_runner(Arc::new(config), scan));
         rt.shutdown_background();
 
+        log::info!("Scan completed. Total results: {}", results.results.len());
+        log::info!(
+            "Scan duration: {:.2}s",
+            (results.end_time - results.start_time).num_milliseconds() as f64 / 1000.0
+        );
+
         /* write results to JSON output if requested */
         if output_json_file.is_some() {
-            let f = File::create(output_json_file.unwrap())?;
+            let output_file = output_json_file.unwrap();
+            log::info!("Writing results to {}", output_file);
+            let f = File::create(output_file)?;
             let mut writer = BufWriter::new(f);
             serde_json::to_writer_pretty(&mut writer, &results)?;
+            log::info!("Results written successfully");
         }
-
     }
+
+    log::info!("PQCscan finished");
 
     Ok(())
 }

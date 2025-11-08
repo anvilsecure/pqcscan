@@ -1,41 +1,129 @@
 use std::sync::Arc;
 
 use crate::config::Config;
-use crate::utils::Target;
 use crate::scan::ScanResult;
+use crate::utils::Target;
 
 use anyhow::{anyhow, Result};
+use byteorder::{NetworkEndian, ReadBytesExt, WriteBytesExt};
+use rand::{rng, Rng};
+use rust_embed::RustEmbed;
+use serde::Deserialize;
+use std::collections::HashMap;
 use std::io::{Cursor, Read, Write};
-use std::net::{TcpStream};
+use std::net::TcpStream;
 use std::time::Duration;
-use rand::{Rng, rng};
-use byteorder::{NetworkEndian, WriteBytesExt, ReadBytesExt};
 
-use crate::tlsconstants::{CipherSuite, SigScheme, Group, GroupDescription, TlsAlerts};
+use crate::tlsconstants::TlsAlerts;
 use crate::utils::socket_create_and_connect;
+
+#[derive(RustEmbed)]
+#[folder = "$CARGO_MANIFEST_DIR/support"]
+#[include = "tls_groups.json"]
+#[include = "tls_cipher_suites.json"]
+#[include = "tls_sig_schemes.json"]
+struct EmbeddedResources;
+
+#[derive(Deserialize, Debug, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct TlsGroup {
+    group_id: u16,
+    pqc: bool,
+    hybrid: bool,
+    #[allow(dead_code)] // currently not used
+    obsolete: bool,
+    #[allow(dead_code)] // currently not used
+    insecure: bool,
+    #[allow(dead_code)] // currently not used
+    desc: String,
+    #[allow(dead_code)] // currently not used
+    href: String,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct TlsCipherSuite {
+    pub cipher_suite_id: u16,
+    #[allow(dead_code)] // currently not used
+    obsolete: bool,
+    #[allow(dead_code)] // currently not used
+    insecure: bool,
+    #[allow(dead_code)] // currently not used
+    desc: String,
+    #[allow(dead_code)] // currently not used
+    href: String,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct TlsSigScheme {
+    pub sig_scheme_id: u16,
+    #[allow(dead_code)] // currently not used
+    obsolete: bool,
+    #[allow(dead_code)] // currently not used
+    insecure: bool,
+    #[allow(dead_code)] // currently not used
+    desc: String,
+    #[allow(dead_code)] // currently not used
+    href: String,
+}
 
 struct Extension {
     pub ext_type: u16,
     pub ext_len: u16,
-    pub payload: Vec<u8>
+    pub payload: Vec<u8>,
 }
 
 struct KeyShareEntry {
     group: u16,
     exchange_len: u16,
-    exchange: Vec<u8>
+    exchange: Vec<u8>,
 }
 
-#[derive(Default)]
 pub struct TlsConfig {
-    pub default_port: u16
+    pub default_port: u16,
+    pub groups: HashMap<String, TlsGroup>,
+    #[allow(dead_code)] // will be used in future
+    pub cipher_suites: HashMap<String, TlsCipherSuite>,
+    #[allow(dead_code)] // will be used in future
+    pub sig_schemes: HashMap<String, TlsSigScheme>,
+}
+
+impl Default for TlsConfig {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl TlsConfig {
     pub fn new() -> TlsConfig {
         TlsConfig {
-            default_port: 443
+            default_port: 443,
+            groups: Self::load_groups(),
+            cipher_suites: Self::load_cipher_suites(),
+            sig_schemes: Self::load_sig_schemes(),
         }
+    }
+
+    fn load_groups() -> HashMap<String, TlsGroup> {
+        let json_file = EmbeddedResources::get("tls_groups.json").unwrap();
+        let json_data = std::str::from_utf8(json_file.data.as_ref()).unwrap();
+        let groups = serde_json::from_str(&json_data).unwrap();
+        return groups;
+    }
+
+    fn load_cipher_suites() -> HashMap<String, TlsCipherSuite> {
+        let json_file = EmbeddedResources::get("tls_cipher_suites.json").unwrap();
+        let json_data = std::str::from_utf8(json_file.data.as_ref()).unwrap();
+        let cipher_suites = serde_json::from_str(&json_data).unwrap();
+        return cipher_suites;
+    }
+
+    fn load_sig_schemes() -> HashMap<String, TlsSigScheme> {
+        let json_file = EmbeddedResources::get("tls_sig_schemes.json").unwrap();
+        let json_data = std::str::from_utf8(json_file.data.as_ref()).unwrap();
+        let sig_schemes = serde_json::from_str(&json_data).unwrap();
+        return sig_schemes;
     }
 }
 
@@ -45,7 +133,7 @@ impl KeyShareEntry {
         KeyShareEntry {
             group: group,
             exchange_len: exchange.len() as u16,
-            exchange: exchange
+            exchange: exchange,
         }
     }
 }
@@ -62,34 +150,32 @@ impl Extension {
         buf.write_u16::<NetworkEndian>(hblen)?;
         buf.write(&hb)?;
 
-        Ok(Extension{
+        Ok(Extension {
             ext_type: 0,
             ext_len: buf.len().try_into()?,
-            payload: buf}
-        )
+            payload: buf,
+        })
     }
 
     fn supported_versions() -> Result<Extension> {
         let mut buf: Vec<u8> = vec![];
         buf.write_u8(2)?;
-        buf.write_u16::<NetworkEndian>(0x0304)?;  /* TLS 1.3 */
-        Ok(Extension{
+        buf.write_u16::<NetworkEndian>(0x0304)?; /* TLS 1.3 */
+        Ok(Extension {
             ext_type: 43,
             ext_len: 3,
-            payload: buf
-            }
-        )
+            payload: buf,
+        })
     }
 
     fn record_size_limit(limit: u16) -> Result<Extension> {
         let mut buf: Vec<u8> = vec![];
         buf.write_u16::<NetworkEndian>(limit)?;
-        Ok(Extension{
+        Ok(Extension {
             ext_type: 28,
             ext_len: 2,
-            payload: buf
-            }
-        )
+            payload: buf,
+        })
     }
 
     fn supported_groups(groups: Vec<u16>) -> Result<Extension> {
@@ -102,7 +188,7 @@ impl Extension {
         Ok(Extension {
             ext_type: 10,
             ext_len: buf.len().try_into()?,
-            payload: buf
+            payload: buf,
         })
     }
 
@@ -116,7 +202,7 @@ impl Extension {
         Ok(Extension {
             ext_type: 13,
             ext_len: buf.len().try_into()?,
-            payload: buf
+            payload: buf,
         })
     }
 
@@ -125,7 +211,7 @@ impl Extension {
         Ok(Extension {
             ext_type: ext_type,
             ext_len: 0,
-            payload: buf
+            payload: buf,
         })
     }
 
@@ -147,7 +233,7 @@ impl Extension {
         Ok(Extension {
             ext_type: 27,
             ext_len: buf.len().try_into()?,
-            payload: buf
+            payload: buf,
         })
     }
 
@@ -158,7 +244,7 @@ impl Extension {
         Ok(Extension {
             ext_type: 65281,
             ext_len: buf.len().try_into()?,
-            payload: buf
+            payload: buf,
         })
     }
 
@@ -170,12 +256,12 @@ impl Extension {
         Ok(Extension {
             ext_type: 11,
             ext_len: buf.len().try_into()?,
-            payload: buf
+            payload: buf,
         })
     }
 
     fn status_request() -> Result<Extension> {
-        /* 
+        /*
          * Default is to ask for status_request of:
          * - OCSP certificate status: OCSP (1)
          * - Responder ID list length: 0
@@ -184,7 +270,7 @@ impl Extension {
         Ok(Extension {
             ext_type: 5,
             ext_len: 5,
-            payload: vec![1, 0, 0, 0, 0]
+            payload: vec![1, 0, 0, 0, 0],
         })
     }
 
@@ -206,7 +292,7 @@ impl Extension {
         Ok(Extension {
             ext_type: 51,
             ext_len: buf.len().try_into()?,
-            payload: buf
+            payload: buf,
         })
     }
 }
@@ -218,7 +304,7 @@ pub struct ClientHelloBuilder {
     cipher_suites: Vec<u16>,
     compression_methods: Vec<u8>,
     extensions_len: u16,
-    extensions: Vec<Extension>
+    extensions: Vec<Extension>,
 }
 
 impl ClientHelloBuilder {
@@ -226,11 +312,11 @@ impl ClientHelloBuilder {
         let mut random: [u8; 32] = [0; 32];
         rng().fill(&mut random[..]);
 
-		/*
-		  generate 32 byets of random session id data. In TLS 1.3 session
-		  resume works via PSK (pre-shared keys), but this keeps some annoying middleware
-		  kboxes of our back as it will "disguise" 1.3 sessions as resumed 1.2 sessions. 
-	    */
+        /*
+          generate 32 bytes of random session id data. In TLS 1.3 session
+          resume works via PSK (pre-shared keys), but this keeps some annoying middleware
+          kboxes of our back as it will "disguise" 1.3 sessions as resumed 1.2 sessions.
+        */
         const SESSION_ID_LEN: usize = 32;
         let mut session_id: [u8; SESSION_ID_LEN] = [0; SESSION_ID_LEN];
         rng().fill(&mut session_id);
@@ -242,7 +328,7 @@ impl ClientHelloBuilder {
             cipher_suites: Vec::<u16>::new(),
             compression_methods: Vec::<u8>::new(),
             extensions_len: 0,
-            extensions: Vec::<Extension>::new()
+            extensions: Vec::<Extension>::new(),
         }
     }
 
@@ -276,8 +362,8 @@ impl ClientHelloBuilder {
 
         /* now setup the record layer header */
 
-		// XXX: this is another copy of the Vec, maybe we can use a slice
-		// above or otherwise a Cursor to not have to do this copy
+        // XXX: this is another copy of the Vec, maybe we can use a slice
+        // above or otherwise a Cursor to not have to do this copy
 
         let mut preamble: Vec<u8> = vec![];
         preamble.write_u8(22)?;
@@ -303,36 +389,34 @@ impl ClientHelloBuilder {
     fn add_cipher_suite(&mut self, cipher_suite: u16) {
         self.cipher_suites.push(cipher_suite);
     }
-
-
 }
 
-fn tls_connect_with_group(stream: &mut TcpStream, host: &str, group: u16) -> Result<()> {
+fn tls_connect_with_group(
+    stream: &mut TcpStream,
+    host: &str,
+    group: u16,
+    group_name: &str,
+    config: &Arc<Config>,
+) -> Result<()> {
+    log::trace!("TLS: attempting handshake with group {}", group_name);
 
-    let ciphers = [
-        CipherSuite::TLS_AES_128_GCM_SHA256,
-        CipherSuite::TLS_AES_256_GCM_SHA384,
-        CipherSuite::TLS_CHACHA20_POLY1305_SHA256,
-        CipherSuite::TLS_AES_128_CCM_SHA256,
-        CipherSuite::TLS_AES_128_CCM_8_SHA256
-    ];
+    // Load cipher suites from JSON configuration
+    let ciphers: Vec<u16> = config
+        .tls_config
+        .cipher_suites
+        .values()
+        .map(|cs| cs.cipher_suite_id)
+        .collect();
 
     let groups = vec![group];
 
-    let sigschemes = vec![
-        SigScheme::RSA_PSS_RSAE_SHA256,
-        SigScheme::ECDSA_SECP256R1_SHA256,
-        SigScheme::ED25519,
-        SigScheme::RSA_PSS_RSAE_SHA384,
-        SigScheme::RSA_PSS_RSAE_SHA512,
-        SigScheme::RSA_PKCS1_SHA256,
-        SigScheme::RSA_PKCS1_SHA384,
-        SigScheme::RSA_PKCS1_SHA512,
-        SigScheme::ECDSA_SECP384R1_SHA384,
-        SigScheme::ECDSA_SECP521R1_SHA512,
-        SigScheme::RSA_PKCS1_SHA1,
-        SigScheme::ECDSA_SHA1
-    ];
+    // Load signature schemes from JSON configuration
+    let sigschemes: Vec<u16> = config
+        .tls_config
+        .sig_schemes
+        .values()
+        .map(|ss| ss.sig_scheme_id)
+        .collect();
 
     let keyshares: Vec<KeyShareEntry> = vec![];
 
@@ -354,10 +438,13 @@ fn tls_connect_with_group(stream: &mut TcpStream, host: &str, group: u16) -> Res
     chb.add_extension(Extension::renegotiation_info()?);
     chb.add_extension(Extension::ec_point_formats()?);
 
+    log::trace!("TLS: sending ClientHello");
     stream.write(&chb.into_buf()?)?;
     let mut buf: [u8; 5000] = [0; 5000];
 
+    log::trace!("TLS: waiting for ServerHello");
     let read = stream.read(&mut buf)?;
+    log::trace!("TLS: received {} bytes", read);
     let mut cursor = Cursor::new(buf);
 
     let content_type = cursor.read_u8()?;
@@ -384,9 +471,10 @@ fn tls_connect_with_group(stream: &mut TcpStream, host: &str, group: u16) -> Res
         if version != 0x0303 {
             return Err(anyhow!("Expected TLS 1.2 (0x0303) version number"));
         }
-        return Ok(())
-    }
-    else if content_type == 0x15 {
+        log::trace!("TLS: ServerHello handshake successful");
+        return Ok(());
+    } else if content_type == 0x15 {
+        log::trace!("TLS: received Alert message");
         /* TLS Alert record received*/
         if read < 5 {
             return Err(anyhow!("Too short TLS Alert record received"));
@@ -408,82 +496,141 @@ fn tls_connect_with_group(stream: &mut TcpStream, host: &str, group: u16) -> Res
             return Err(anyhow!("{}", TlsAlerts[&desc]));
         }
         return Err(anyhow!("Unknown TLS Alert code: {:#02x}", desc));
-    }
-    else {
+    } else {
         return Err(anyhow!("Unexpected TLS content type != [0x15, 0x16]"));
     }
 }
 
-
-pub async fn tls_scan_target(config: &Arc<Config>, target: &Target, hybrid_algos_only: bool) -> ScanResult {
-    log::debug!("Started TLS scanning {}", target);
+pub async fn tls_scan_target(
+    config: &Arc<Config>,
+    target: &Target,
+    hybrid_algos_only: bool,
+    scan_nonpqc_algos: bool,
+) -> ScanResult {
+    log::debug!("TLS scan: starting scan of {}", target);
 
     let mut pqc_supported = false;
-    let pqc_algos: Vec<String> = vec![];
+    let mut pqc_algos: Vec<String> = vec![];
     let mut hybrid_algos: Vec<String> = vec![];
+    let mut nonpqc_algos: Vec<String> = vec![];
 
-    let mut groups = vec![
-        Group::X25519MLKEM768,
-        Group::SECP256R1MLKEM768,
-        Group::SECP384R1MLKEM1024
-    ];
+    // Build list of groups to test from the configuration
+    let mut groups_to_test: Vec<(String, &TlsGroup)> = vec![];
 
-    if !hybrid_algos_only {
-        groups.push(Group::MLKEM1024);
-        groups.push(Group::MLKEM512);
-        groups.push(Group::MLKEM768);
+    for (name, group) in &config.tls_config.groups {
+        // If hybrid_algos_only is set, only test hybrid algorithms
+        if hybrid_algos_only && !group.hybrid {
+            continue;
+        }
+        // Only test PQC algorithms
+        if group.pqc {
+            groups_to_test.push((name.clone(), group));
+        } else if scan_nonpqc_algos {
+            // If scan_nonpqc_algos is set, also test non-PQC algorithms
+            groups_to_test.push((name.clone(), group));
+        }
     }
+
+    log::debug!(
+        "TLS scan: testing {} group(s) on {}",
+        groups_to_test.len(),
+        target
+    );
 
     let mut addr: Option<String> = None;
 
-    for group in groups {
-
+    for (group_name, group_info) in groups_to_test {
+        log::trace!("TLS scan: testing group {} on {}", group_name, target);
         let ret = socket_create_and_connect(&target, config.connection_timeout).await;
         if ret.is_err() {
-            log::trace!("Could not connect to {target}");
+            let err = ret.unwrap_err();
+            let err_msg = err.to_string();
+            log::warn!("TLS scan: connection failed for {} - {}", target, err_msg);
             return ScanResult::Tls {
                 targetspec: target.clone(),
                 addr: None,
-                error: Some(ret.unwrap_err().to_string()),
+                error: Some(err_msg),
                 pqc_supported: false,
                 pqc_algos: None,
-                hybrid_algos: None
+                hybrid_algos: None,
+                nonpqc_algos: None,
             };
         }
         let (_addr, stream) = ret.unwrap();
-        addr = Some(_addr.to_string());
+        if addr.is_none() {
+            addr = Some(_addr.to_string());
+            log::debug!("TLS scan: connected to {} ({})", target, _addr);
+        }
         let mut stream = stream.into_std().unwrap();
         stream.set_nonblocking(false).unwrap();
         let res = stream.set_read_timeout(Some(Duration::from_secs(config.read_timeout)));
         if res.is_err() {
-            log::warn!("Error while setting read timeout for socket to {0}s", config.read_timeout);
-        }
-        else {
+            log::warn!(
+                "Error while setting read timeout for socket to {0}s",
+                config.read_timeout
+            );
+        } else {
             log::trace!("Set read timeout for socket to {0}s", config.read_timeout);
         }
 
-        let ret = tls_connect_with_group(&mut stream, &target.host, group);
+        let ret = tls_connect_with_group(
+            &mut stream,
+            &target.host,
+            group_info.group_id,
+            &group_name,
+            config,
+        );
         match ret {
             Ok(_) => {
-                let algo = GroupDescription[&group];
-                log::debug!("{} supports hybrid PQC algo {}", &target, algo);
-                pqc_supported = true;
-                hybrid_algos.push(algo.to_string());
+                if group_info.pqc && !group_info.hybrid {
+                    log::info!(
+                        "TLS scan: {} supports PQC algorithm: {}",
+                        target,
+                        group_name
+                    );
+                    pqc_supported = true;
+                    pqc_algos.push(group_name.clone());
+                } else if group_info.pqc {
+                    log::info!(
+                        "TLS scan: {} supports hybrid PQC algorithm: {}",
+                        target,
+                        group_name
+                    );
+                    pqc_supported = true;
+                    hybrid_algos.push(group_name.clone());
+                } else {
+                    log::info!(
+                        "TLS scan: {} supports non-PQC algorithm: {}",
+                        target,
+                        group_name
+                    );
+                    nonpqc_algos.push(group_name.clone());
+                }
             }
             Err(e) => {
-                log::debug!("{} does NOT support {}: {}", &target, GroupDescription[&group], e);
+                log::trace!(
+                    "TLS scan: {} does not support {} - {}",
+                    target,
+                    group_name,
+                    e
+                );
             }
         }
     }
 
-    log::trace!("Finished TLS scanning {}", target);
+    log::debug!(
+        "TLS scan: finished scanning {} (PQC supported: {})",
+        target,
+        pqc_supported
+    );
     let ret = ScanResult::Tls {
         targetspec: target.clone(),
         addr: addr,
         error: None,
         pqc_supported: pqc_supported,
         pqc_algos: Some(pqc_algos),
-        hybrid_algos: Some(hybrid_algos)
+        hybrid_algos: Some(hybrid_algos),
+        nonpqc_algos: Some(nonpqc_algos),
     };
     return ret;
 }

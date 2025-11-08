@@ -1,0 +1,51 @@
+{
+  "TLS_AES_128_GCM_SHA256": {
+    "cipher_suite_id": 4865,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "AES-128-GCM with SHA-256 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "TLS_AES_256_GCM_SHA384": {
+    "cipher_suite_id": 4866,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "AES-256-GCM with SHA-384 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "TLS_CHACHA20_POLY1305_SHA256": {
+    "cipher_suite_id": 4867,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ChaCha20-Poly1305 with SHA-256 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "TLS_AES_128_CCM_SHA256": {
+    "cipher_suite_id": 4868,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "AES-128-CCM with SHA-256 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "TLS_AES_128_CCM_8_SHA256": {
+    "cipher_suite_id": 4869,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "AES-128-CCM-8 with SHA-256 for TLS 1.3 (8-byte auth tag)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "TLS_AEGIS_256_SHA512": {
+    "cipher_suite_id": 4870,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "AEGIS-256 with SHA-512 for TLS 1.3 (experimental)",
+    "href": "https://datatracker.ietf.org/doc/draft-irtf-cfrg-aegis-aead/"
+  },
+  "TLS_AEGIS_128L_SHA256": {
+    "cipher_suite_id": 4871,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "AEGIS-128L with SHA-256 for TLS 1.3 (experimental)",
+    "href": "https://datatracker.ietf.org/doc/draft-irtf-cfrg-aegis-aead/"
+  }
+}

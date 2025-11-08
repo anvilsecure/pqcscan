@@ -1,0 +1,240 @@
+{
+  "ECDSA_SECP256R1_SHA256": {
+    "sig_scheme_id": 1027,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ECDSA with SECP256R1 curve and SHA-256",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "ECDSA_SECP384R1_SHA384": {
+    "sig_scheme_id": 1283,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ECDSA with SECP384R1 curve and SHA-384",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "ECDSA_SECP521R1_SHA512": {
+    "sig_scheme_id": 1539,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ECDSA with SECP521R1 curve and SHA-512",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "ED25519": {
+    "sig_scheme_id": 2055,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Edwards-curve Digital Signature Algorithm with Curve25519",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "ED448": {
+    "sig_scheme_id": 2056,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Edwards-curve Digital Signature Algorithm with Curve448",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PSS_RSAE_SHA256": {
+    "sig_scheme_id": 2052,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "RSA-PSS with RSAE key and SHA-256",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PSS_RSAE_SHA384": {
+    "sig_scheme_id": 2053,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "RSA-PSS with RSAE key and SHA-384",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PSS_RSAE_SHA512": {
+    "sig_scheme_id": 2054,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "RSA-PSS with RSAE key and SHA-512",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PSS_PSS_SHA256": {
+    "sig_scheme_id": 2057,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "RSA-PSS with PSS key and SHA-256",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PSS_PSS_SHA384": {
+    "sig_scheme_id": 2058,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "RSA-PSS with PSS key and SHA-384",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PSS_PSS_SHA512": {
+    "sig_scheme_id": 2059,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "RSA-PSS with PSS key and SHA-512",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PKCS1_SHA256": {
+    "sig_scheme_id": 1025,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "RSA PKCS#1 v1.5 with SHA-256",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PKCS1_SHA384": {
+    "sig_scheme_id": 1281,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "RSA PKCS#1 v1.5 with SHA-384",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PKCS1_SHA512": {
+    "sig_scheme_id": 1537,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "RSA PKCS#1 v1.5 with SHA-512",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "ECDSA_BRAINPOOLP256R1TLS13_SHA256": {
+    "sig_scheme_id": 2074,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ECDSA with Brainpool P-256r1 curve and SHA-256 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8734"
+  },
+  "ECDSA_BRAINPOOLP384R1TLS13_SHA384": {
+    "sig_scheme_id": 2075,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ECDSA with Brainpool P-384r1 curve and SHA-384 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8734"
+  },
+  "ECDSA_BRAINPOOLP512R1TLS13_SHA512": {
+    "sig_scheme_id": 2076,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ECDSA with Brainpool P-512r1 curve and SHA-512 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8734"
+  },
+  "SM2SIG_SM3": {
+    "sig_scheme_id": 1800,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "SM2 signature with SM3 hash (Chinese national standard)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8998"
+  },
+  "GOSTR34102012_256A": {
+    "sig_scheme_id": 1801,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 256-bit variant A",
+    "href": "https://www.rfc-editor.org/rfc/rfc9367"
+  },
+  "GOSTR34102012_256B": {
+    "sig_scheme_id": 1802,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 256-bit variant B",
+    "href": "https://www.rfc-editor.org/rfc/rfc9367"
+  },
+  "GOSTR34102012_256C": {
+    "sig_scheme_id": 1803,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 256-bit variant C",
+    "href": "https://www.rfc-editor.org/rfc/rfc9367"
+  },
+  "GOSTR34102012_256D": {
+    "sig_scheme_id": 1804,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 256-bit variant D",
+    "href": "https://www.rfc-editor.org/rfc/rfc9367"
+  },
+  "GOSTR34102012_512A": {
+    "sig_scheme_id": 1805,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 512-bit variant A",
+    "href": "https://www.rfc-editor.org/rfc/rfc9367"
+  },
+  "GOSTR34102012_512B": {
+    "sig_scheme_id": 1806,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 512-bit variant B",
+    "href": "https://www.rfc-editor.org/rfc/rfc9367"
+  },
+  "GOSTR34102012_512C": {
+    "sig_scheme_id": 1807,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 512-bit variant C",
+    "href": "https://www.rfc-editor.org/rfc/rfc9367"
+  },
+  "ECCSI_SHA256": {
+    "sig_scheme_id": 1796,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI) with SHA-256",
+    "href": "https://datatracker.ietf.org/doc/draft-wang-tls-raw-public-key-with-ibc/"
+  },
+  "ISO_IBS1": {
+    "sig_scheme_id": 1797,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ISO Identity-Based Signature scheme 1",
+    "href": "https://datatracker.ietf.org/doc/draft-wang-tls-raw-public-key-with-ibc/"
+  },
+  "ISO_IBS2": {
+    "sig_scheme_id": 1798,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ISO Identity-Based Signature scheme 2",
+    "href": "https://datatracker.ietf.org/doc/draft-wang-tls-raw-public-key-with-ibc/"
+  },
+  "ISO_CHINESE_IBS": {
+    "sig_scheme_id": 1799,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ISO Chinese Identity-Based Signature scheme",
+    "href": "https://datatracker.ietf.org/doc/draft-wang-tls-raw-public-key-with-ibc/"
+  },
+  "RSA_PKCS1_SHA256_LEGACY": {
+    "sig_scheme_id": 1056,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "RSA PKCS#1 v1.5 with SHA-256 (legacy for TLS 1.3)",
+    "href": "https://datatracker.ietf.org/doc/draft-davidben-tls13-pkcs1/"
+  },
+  "RSA_PKCS1_SHA384_LEGACY": {
+    "sig_scheme_id": 1312,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "RSA PKCS#1 v1.5 with SHA-384 (legacy for TLS 1.3)",
+    "href": "https://datatracker.ietf.org/doc/draft-davidben-tls13-pkcs1/"
+  },
+  "RSA_PKCS1_SHA512_LEGACY": {
+    "sig_scheme_id": 1568,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "RSA PKCS#1 v1.5 with SHA-512 (legacy for TLS 1.3)",
+    "href": "https://datatracker.ietf.org/doc/draft-davidben-tls13-pkcs1/"
+  },
+  "ECDSA_SHA1": {
+    "sig_scheme_id": 515,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "ECDSA with SHA-1 - obsolete and insecure",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "RSA_PKCS1_SHA1": {
+    "sig_scheme_id": 513,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "RSA PKCS#1 v1.5 with SHA-1 - obsolete and insecure",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  }
+}

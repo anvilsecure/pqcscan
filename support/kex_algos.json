@@ -2,423 +2,423 @@
   "bike-l1-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "BIKE Level 1 (128-bit security) with SHA-512 - post-quantum code-based KEM",
+    "href": "https://bikesuite.org/"
   },
   "bike-l3-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "BIKE Level 3 (192-bit security) with SHA-512 - post-quantum code-based KEM",
+    "href": "https://bikesuite.org/"
   },
   "bike-l5-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "BIKE Level 5 (256-bit security) with SHA-512 - post-quantum code-based KEM",
+    "href": "https://bikesuite.org/"
   },
   "classic-mceliece-348864-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 348864 with SHA-256 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "classic-mceliece-348864f-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 348864f (fast variant) with SHA-256 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "classic-mceliece-460896-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 460896 with SHA-512 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "classic-mceliece-460896f-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 460896f (fast variant) with SHA-512 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "classic-mceliece-6688128-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 6688128 with SHA-512 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "classic-mceliece-6688128f-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 6688128f (fast variant) with SHA-512 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "classic-mceliece-6960119-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 6960119 with SHA-512 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "classic-mceliece-6960119f-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 6960119f (fast variant) with SHA-512 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "classic-mceliece-8192128-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 8192128 with SHA-512 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "classic-mceliece-8192128f-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Classic McEliece 8192128f (fast variant) with SHA-512 - post-quantum code-based KEM",
+    "href": "https://classic.mceliece.org/"
   },
   "curve25519-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Curve25519 ECDH with SHA-256",
+    "href": "https://www.rfc-editor.org/rfc/rfc8731"
   },
   "curve25519-sha256@libssh.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Curve25519 ECDH with SHA-256 (libssh variant)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8731"
   },
   "diffie-hellman-group-exchange-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Diffie-Hellman Group Exchange with SHA-256",
+    "href": "https://www.rfc-editor.org/rfc/rfc4419"
   },
   "diffie-hellman-group14-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Diffie-Hellman Group 14 (2048-bit) with SHA-256",
+    "href": "https://www.rfc-editor.org/rfc/rfc8268"
   },
   "diffie-hellman-group16-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Diffie-Hellman Group 16 (4096-bit) with SHA-512",
+    "href": "https://www.rfc-editor.org/rfc/rfc8268"
   },
   "diffie-hellman-group18-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Diffie-Hellman Group 18 (8192-bit) with SHA-512",
+    "href": "https://www.rfc-editor.org/rfc/rfc8268"
   },
   "ecdh-nistp256-bike-l1r4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-256 with BIKE Level 1 Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp256-classic-mceliece-348864fr4-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-256 with Classic McEliece 348864f Round 4 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp256-classic-mceliece-348864r4-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-256 with Classic McEliece 348864 Round 4 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp256-frodokem-640-aesr2-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-256 with FrodoKEM-640-AES Round 2 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp256-frodokem-640-shaker2-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-256 with FrodoKEM-640-SHAKE Round 2 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp256-hqc-128r3-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-256 with HQC-128 Round 3 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp256-kyber-512r3-sha256-d00@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-256 with Kyber-512 Round 3 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp256-ml-kem-512-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-256 with ML-KEM-512 (FIPS 203) and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp384-bike-l3r4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-384 with BIKE Level 3 Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp384-classic-mceliece-460896fr4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-384 with Classic McEliece 460896f Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp384-classic-mceliece-460896r4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-384 with Classic McEliece 460896 Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp384-frodokem-976-aesr2-sha384@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-384 with FrodoKEM-976-AES Round 2 and SHA-384",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp384-frodokem-976-shaker2-sha384@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-384 with FrodoKEM-976-SHAKE Round 2 and SHA-384",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp384-hqc-192r3-sha384@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-384 with HQC-192 Round 3 and SHA-384",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp384-kyber-768r3-sha384-d00@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-384 with Kyber-768 Round 3 and SHA-384",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-bike-l5r4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with BIKE Level 5 Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-classic-mceliece-6688128fr4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with Classic McEliece 6688128f Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-classic-mceliece-6688128r4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with Classic McEliece 6688128 Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-classic-mceliece-6960119fr4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with Classic McEliece 6960119f Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-classic-mceliece-6960119r4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with Classic McEliece 6960119 Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-classic-mceliece-8192128fr4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with Classic McEliece 8192128f Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-classic-mceliece-8192128r4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with Classic McEliece 8192128 Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-frodokem-1344-aesr2-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with FrodoKEM-1344-AES Round 2 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-frodokem-1344-shaker2-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with FrodoKEM-1344-SHAKE Round 2 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-hqc-256r3-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with HQC-256 Round 3 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-nistp521-kyber-1024r3-sha512-d00@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid NIST P-521 with Kyber-1024 Round 3 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "ecdh-sha2-nistp256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "ECDH with NIST P-256 curve and SHA-256",
+    "href": "https://www.rfc-editor.org/rfc/rfc5656"
   },
   "ecdh-sha2-nistp384": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "ECDH with NIST P-384 curve and SHA-384",
+    "href": "https://www.rfc-editor.org/rfc/rfc5656"
   },
   "ecdh-sha2-nistp521": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "ECDH with NIST P-521 curve and SHA-512",
+    "href": "https://www.rfc-editor.org/rfc/rfc5656"
   },
   "ext-info-s": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Extension negotiation indicator (server-side)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8308"
   },
   "frodokem-1344-aes-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "FrodoKEM-1344-AES with SHA-512 - post-quantum lattice-based KEM",
+    "href": "https://frodokem.org/"
   },
   "frodokem-1344-shake-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "FrodoKEM-1344-SHAKE with SHA-512 - post-quantum lattice-based KEM",
+    "href": "https://frodokem.org/"
   },
   "frodokem-640-aes-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "FrodoKEM-640-AES with SHA-256 - post-quantum lattice-based KEM",
+    "href": "https://frodokem.org/"
   },
   "frodokem-640-shake-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "FrodoKEM-640-SHAKE with SHA-256 - post-quantum lattice-based KEM",
+    "href": "https://frodokem.org/"
   },
   "frodokem-976-aes-sha384": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "FrodoKEM-976-AES with SHA-384 - post-quantum lattice-based KEM",
+    "href": "https://frodokem.org/"
   },
   "frodokem-976-shake-sha384": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "FrodoKEM-976-SHAKE with SHA-384 - post-quantum lattice-based KEM",
+    "href": "https://frodokem.org/"
   },
   "hqc-128-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "HQC-128 (128-bit security) with SHA-256 - post-quantum code-based KEM",
+    "href": "https://pqc-hqc.org/"
   },
   "hqc-192-sha384": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "HQC-192 (192-bit security) with SHA-384 - post-quantum code-based KEM",
+    "href": "https://pqc-hqc.org/"
   },
   "hqc-256-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "HQC-256 (256-bit security) with SHA-512 - post-quantum code-based KEM",
+    "href": "https://pqc-hqc.org/"
   },
   "kex-strict-s-v00@openssh.com": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Strict key exchange extension (server-side) - mitigates Terrapin attack",
+    "href": "https://www.openssh.com/txt/release-9.6"
   },
   "kyber-1024-sha512": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Kyber-1024 Round 3 with SHA-512 - post-quantum lattice-based KEM (pre-standard)",
+    "href": "https://pq-crystals.org/kyber/"
   },
   "kyber-512-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Kyber-512 Round 3 with SHA-256 - post-quantum lattice-based KEM (pre-standard)",
+    "href": "https://pq-crystals.org/kyber/"
   },
   "kyber-768-sha384": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Kyber-768 Round 3 with SHA-384 - post-quantum lattice-based KEM (pre-standard)",
+    "href": "https://pq-crystals.org/kyber/"
   },
   "ml-kem-1024-sha384": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "ML-KEM-1024 (FIPS 203) with SHA-384 - standardized post-quantum lattice-based KEM",
+    "href": "https://csrc.nist.gov/pubs/fips/203/final"
   },
   "ml-kem-512-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "ML-KEM-512 (FIPS 203) with SHA-256 - standardized post-quantum lattice-based KEM",
+    "href": "https://csrc.nist.gov/pubs/fips/203/final"
   },
   "ml-kem-768-sha256": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "ML-KEM-768 (FIPS 203) with SHA-256 - standardized post-quantum lattice-based KEM",
+    "href": "https://csrc.nist.gov/pubs/fips/203/final"
   },
   "mlkem1024nistp384-sha384": {
     "pqc": true,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid ML-KEM-1024 (FIPS 203) with NIST P-384 and SHA-384",
+    "href": "https://datatracker.ietf.org/doc/draft-kampanakis-curdle-ssh-pq-ke/"
   },
   "mlkem768nistp256-sha256": {
     "pqc": true,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid ML-KEM-768 (FIPS 203) with NIST P-256 and SHA-256",
+    "href": "https://datatracker.ietf.org/doc/draft-kampanakis-curdle-ssh-pq-ke/"
   },
   "mlkem768x25519-sha256": {
     "pqc": true,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid ML-KEM-768 (FIPS 203) with X25519 and SHA-256",
+    "href": "https://datatracker.ietf.org/doc/draft-kampanakis-curdle-ssh-pq-ke/"
   },
   "sntrup761-sha512": {
     "pqc": true,
     "broken": false,
-    "desc": "Streamlined NTRU Prime sntrup761 with SHA-512",
-    "href": "le.com"
+    "desc": "Streamlined NTRU Prime sntrup761 with SHA-512 - post-quantum lattice-based KEM",
+    "href": "https://ntruprime.cr.yp.to/"
   },
   "sntrup761x25519-sha512": {
     "pqc": true,
     "hybrid": true,
     "broken": false,
     "desc": "Hybrid Streamlined NTRU Prime sntrup761 and X25519 with SHA-512",
-    "href": "https://www.ietf.org/archive/id/draft-josefsson-ntruprime-hybrid-00.txt" 
+    "href": "https://www.ietf.org/archive/id/draft-josefsson-ntruprime-hybrid-00.txt"
   },
   "sntrup761x25519-sha512@openssh.com": {
     "pqc": true,
@@ -430,49 +430,67 @@
   "x25519-bike-l1r4-sha512@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid X25519 with BIKE Level 1 Round 4 and SHA-512",
+    "href": "https://openquantumsafe.org/"
   },
   "x25519-classic-mceliece-348864fr4-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid X25519 with Classic McEliece 348864f Round 4 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "x25519-classic-mceliece-348864r4-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid X25519 with Classic McEliece 348864 Round 4 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "x25519-frodokem-640-aesr2-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid X25519 with FrodoKEM-640-AES Round 2 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "x25519-frodokem-640-shaker2-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid X25519 with FrodoKEM-640-SHAKE Round 2 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "x25519-hqc-128r3-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid X25519 with HQC-128 Round 3 and SHA-256",
+    "href": "https://openquantumsafe.org/"
   },
   "x25519-kyber-512r3-sha256-d00@amazon.com": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid X25519 with Kyber-512 Round 3 and SHA-256 (Amazon variant)",
+    "href": "https://aws.amazon.com/blogs/security/post-quantum-tls-now-supported-in-aws-kms/"
   },
   "x25519-ml-kem-512-sha256@openquantumsafe.org": {
     "pqc": false,
     "broken": false,
-    "desc": null,
-    "href": null
+    "desc": "Hybrid X25519 with ML-KEM-512 (FIPS 203) and SHA-256",
+    "href": "https://openquantumsafe.org/"
+  },
+  "diffie-hellman-group-exchange-sha1": {
+    "pqc": false,
+    "broken": true,
+    "desc": "Uses SHA-1 which is considered weak",
+    "href": "https://www.rfc-editor.org/rfc/rfc4253#section-8"
+  },
+  "diffie-hellman-group1-sha1": {
+    "pqc": false,
+    "broken": true,
+    "desc": "Uses SHA-1 which is considered weak",
+    "href": "https://www.rfc-editor.org/rfc/rfc4253#section-8"
+  },
+  "diffie-hellman-group14-sha1": {
+    "pqc": false,
+    "broken": true,
+    "desc": "Uses SHA-1 which is considered weak",
+    "href": "https://www.rfc-editor.org/rfc/rfc4253#section-8"
   }
 }

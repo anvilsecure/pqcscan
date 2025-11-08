@@ -1,0 +1,488 @@
+{
+  "X25519MLKEM768": {
+    "group_id": 4588,
+    "pqc": true,
+    "hybrid": true,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Hybrid X25519 with ML-KEM-768",
+    "href": "https://datatracker.ietf.org/doc/draft-kwiatkowski-tls-ecdhe-mlkem/"
+  },
+  "SECP256R1MLKEM768": {
+    "group_id": 4587,
+    "pqc": true,
+    "hybrid": true,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Hybrid SECP256R1 with ML-KEM-768",
+    "href": "https://datatracker.ietf.org/doc/draft-kwiatkowski-tls-ecdhe-mlkem/"
+  },
+  "SECP384R1MLKEM1024": {
+    "group_id": 4589,
+    "pqc": true,
+    "hybrid": true,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Hybrid SECP384R1 with ML-KEM-1024",
+    "href": "https://datatracker.ietf.org/doc/draft-kwiatkowski-tls-ecdhe-mlkem/"
+  },
+  "MLKEM1024": {
+    "group_id": 514,
+    "pqc": true,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ML-KEM-1024 (standalone)",
+    "href": "https://datatracker.ietf.org/doc/draft-connolly-tls-mlkem-key-agreement/"
+  },
+  "MLKEM768": {
+    "group_id": 513,
+    "pqc": true,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ML-KEM-768 (standalone)",
+    "href": "https://datatracker.ietf.org/doc/draft-connolly-tls-mlkem-key-agreement/"
+  },
+  "MLKEM512": {
+    "group_id": 512,
+    "pqc": true,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "ML-KEM-512 (standalone)",
+    "href": "https://datatracker.ietf.org/doc/draft-connolly-tls-mlkem-key-agreement/"
+  },
+  "X25519": {
+    "group_id": 29,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "X25519 (Curve25519)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "X448": {
+    "group_id": 30,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "X448 (Curve448)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8446"
+  },
+  "SECP256R1": {
+    "group_id": 23,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "SECP256R1 (P-256)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP384R1": {
+    "group_id": 24,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "SECP384R1 (P-384)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP521R1": {
+    "group_id": 25,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "SECP521R1 (P-521)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP256K1": {
+    "group_id": 22,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "SECP256K1 (Bitcoin curve)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP224R1": {
+    "group_id": 21,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECP224R1 (P-224) - obsolete, 112-bit security",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP224K1": {
+    "group_id": 20,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECP224K1 - obsolete, 112-bit security",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP192R1": {
+    "group_id": 19,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECP192R1 (P-192) - obsolete and insecure, 96-bit security",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP192K1": {
+    "group_id": 18,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECP192K1 - obsolete and insecure, 96-bit security",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP160R2": {
+    "group_id": 17,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECP160R2 - obsolete and insecure, 80-bit security",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP160R1": {
+    "group_id": 16,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECP160R1 - obsolete and insecure, 80-bit security",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECP160K1": {
+    "group_id": 15,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECP160K1 - obsolete and insecure, 80-bit security",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT571R1": {
+    "group_id": 14,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECT571R1 - obsolete binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT571K1": {
+    "group_id": 13,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECT571K1 - obsolete binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT409R1": {
+    "group_id": 12,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECT409R1 - obsolete binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT409K1": {
+    "group_id": 11,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECT409K1 - obsolete binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT283R1": {
+    "group_id": 10,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECT283R1 - obsolete binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT283K1": {
+    "group_id": 9,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECT283K1 - obsolete binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT239K1": {
+    "group_id": 8,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECT239K1 - obsolete binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT233R1": {
+    "group_id": 7,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECT233R1 - obsolete binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT233K1": {
+    "group_id": 6,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": false,
+    "desc": "SECT233K1 - obsolete binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT193R2": {
+    "group_id": 5,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECT193R2 - obsolete and insecure binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT193R1": {
+    "group_id": 4,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECT193R1 - obsolete and insecure binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT163R2": {
+    "group_id": 3,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECT163R2 - obsolete and insecure binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT163R1": {
+    "group_id": 2,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECT163R1 - obsolete and insecure binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "SECT163K1": {
+    "group_id": 1,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "SECT163K1 - obsolete and insecure binary curve",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "BRAINPOOLP256R1": {
+    "group_id": 26,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Brainpool P-256r1",
+    "href": "https://www.rfc-editor.org/rfc/rfc7027"
+  },
+  "BRAINPOOLP384R1": {
+    "group_id": 27,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Brainpool P-384r1",
+    "href": "https://www.rfc-editor.org/rfc/rfc7027"
+  },
+  "BRAINPOOLP512R1": {
+    "group_id": 28,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Brainpool P-512r1",
+    "href": "https://www.rfc-editor.org/rfc/rfc7027"
+  },
+  "BRAINPOOLP256R1TLS13": {
+    "group_id": 31,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Brainpool P-256r1 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8734"
+  },
+  "BRAINPOOLP384R1TLS13": {
+    "group_id": 32,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Brainpool P-384r1 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8734"
+  },
+  "BRAINPOOLP512R1TLS13": {
+    "group_id": 33,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Brainpool P-512r1 for TLS 1.3",
+    "href": "https://www.rfc-editor.org/rfc/rfc8734"
+  },
+  "GC256A": {
+    "group_id": 34,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 256-bit curve A",
+    "href": "https://www.rfc-editor.org/rfc/rfc9189"
+  },
+  "GC256B": {
+    "group_id": 35,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 256-bit curve B",
+    "href": "https://www.rfc-editor.org/rfc/rfc9189"
+  },
+  "GC256C": {
+    "group_id": 36,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 256-bit curve C",
+    "href": "https://www.rfc-editor.org/rfc/rfc9189"
+  },
+  "GC256D": {
+    "group_id": 37,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 256-bit curve D",
+    "href": "https://www.rfc-editor.org/rfc/rfc9189"
+  },
+  "GC512A": {
+    "group_id": 38,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 512-bit curve A",
+    "href": "https://www.rfc-editor.org/rfc/rfc9189"
+  },
+  "GC512B": {
+    "group_id": 39,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 512-bit curve B",
+    "href": "https://www.rfc-editor.org/rfc/rfc9189"
+  },
+  "GC512C": {
+    "group_id": 40,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "GOST R 34.10-2012 512-bit curve C",
+    "href": "https://www.rfc-editor.org/rfc/rfc9189"
+  },
+  "CURVESM2": {
+    "group_id": 41,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "SM2 curve (Chinese national standard)",
+    "href": "https://www.rfc-editor.org/rfc/rfc8998"
+  },
+  "FFDHE2048": {
+    "group_id": 256,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Finite Field Diffie-Hellman 2048-bit",
+    "href": "https://www.rfc-editor.org/rfc/rfc7919"
+  },
+  "FFDHE3072": {
+    "group_id": 257,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Finite Field Diffie-Hellman 3072-bit",
+    "href": "https://www.rfc-editor.org/rfc/rfc7919"
+  },
+  "FFDHE4096": {
+    "group_id": 258,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Finite Field Diffie-Hellman 4096-bit",
+    "href": "https://www.rfc-editor.org/rfc/rfc7919"
+  },
+  "FFDHE6144": {
+    "group_id": 259,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Finite Field Diffie-Hellman 6144-bit",
+    "href": "https://www.rfc-editor.org/rfc/rfc7919"
+  },
+  "FFDHE8192": {
+    "group_id": 260,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": false,
+    "insecure": false,
+    "desc": "Finite Field Diffie-Hellman 8192-bit",
+    "href": "https://www.rfc-editor.org/rfc/rfc7919"
+  },
+  "ARBITRARY_EXPLICIT_PRIME_CURVES": {
+    "group_id": 65281,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "Arbitrary explicit prime curves - deprecated, allows weak parameters",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  },
+  "ARBITRARY_EXPLICIT_CHAR2_CURVES": {
+    "group_id": 65282,
+    "pqc": false,
+    "hybrid": false,
+    "obsolete": true,
+    "insecure": true,
+    "desc": "Arbitrary explicit binary curves - deprecated, allows weak parameters",
+    "href": "https://www.rfc-editor.org/rfc/rfc8422"
+  }
+}

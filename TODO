@@ -1,14 +1,14 @@
-- move TLS algo's etc to a JSON file like we do for SSH
+- [x] move TLS algo's etc to a JSON file like we do for SSH
 
-- add experimental TLS algo's form the draft/deprecated RFCs and add an
-  optional flag to also scan for these when doing SSH scanning
+- [ ] add experimental TLS algo's form the draft/deprecated RFCs and add an
+      optional flag to also scan for these when doing SSH scanning
 
-- update the SSH KEX database with links/hrefs to each algorithm so that we can
-  display these in the HTML output nicely and link through.
+- [x] update the SSH KEX database with links/hrefs to each algorithm so that we can
+      display these in the HTML output nicely and link through.
 
-- rewrite the templates to not be so ridicuously large for 10s of 1000s of
-  results possibly do this by simply generating a JSON list of all the results
-  and rewrite the templates that all the elements are built up via pure JS
-  instead of generated HTML
+- [ ] rewrite the templates to not be so ridicuously large for 10s of 1000s of
+      results possibly do this by simply generating a JSON list of all the results
+      and rewrite the templates that all the elements are built up via pure JS
+      instead of generated HTML
 
-- add some combined JSON/CSV/XML export output on top of the HTML format
+- [ ] add some combined JSON/CSV/XML export output on top of the HTML format
