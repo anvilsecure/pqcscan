@@ -20,11 +20,20 @@ pqcscan create-report -i gmail.json ssh.json -o report.html
 
 Use pqcscan when you want to probe live hosts across your network.
 
----
-
 ### [pqcdump](pqcdump/) — Passive PCAP Analyzer
 
 **pqcdump** analyzes existing PCAP capture files and identifies all observed hosts and sessions, determining whether PQC algorithms were used or supported in their SSH and TLS handshakes. Output is a self-contained HTML report.
+=======
+To generate CSV, JSON or XML output for spreadsheet import, asset inventory or
+automation workflows, set the report format explicitly:
+
+```
+pqcscan create-report -i gmail.json cloudflare.json --format csv -o report.csv
+pqcscan create-report -i gmail.json cloudflare.json --format json -o report.json
+pqcscan create-report -i gmail.json cloudflare.json --format xml -o report.xml
+```
+
+You can also create a target list in a file and supply it via `-T`. This works for both `tls-scan` and `ssh-scan`.
 
 ```
 pqcdump capture.pcapng
