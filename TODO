@@ -11,4 +11,6 @@
       and rewrite the templates that all the elements are built up via pure JS
       instead of generated HTML
 
-- [ ] add some combined JSON/CSV/XML export output on top of the HTML format
+- [x] add some combined JSON/CSV/XML export output on top of the HTML format
+      - [x] CSV report export
+      - [x] JSON/XML report export

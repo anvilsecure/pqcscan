@@ -42,6 +42,15 @@ pqcscan tls-scan -t pq.cloudflareresearch.com:443 -o cloudflare.json
 pqcscan create-report -i gmail.json cloudflare.json -o report.html
 ```
 
+To generate CSV, JSON or XML output for spreadsheet import, asset inventory or
+automation workflows, set the report format explicitly:
+
+```
+pqcscan create-report -i gmail.json cloudflare.json --format csv -o report.csv
+pqcscan create-report -i gmail.json cloudflare.json --format json -o report.json
+pqcscan create-report -i gmail.json cloudflare.json --format xml -o report.xml
+```
+
 You can also create a target list in a file and supply it via `-T`. This works for both `tls-scan` and `ssh-scan`.
 
 ```

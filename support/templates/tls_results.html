@@ -70,14 +70,16 @@
                         <tr>
                             <th width="20%">PQC Algorithms</th>
                             <td>
-                                {% if result['pqc_algos'] and result['pqc_algos'].count > 0 %}
+                                {% if result['pqc_algos'] and result['pqc_algos'] | length > 0 %}
                                     {% for algo in result['pqc_algos'] | sort %}
                                         {{ algo }}{% if not loop.last %}, {% endif %}
                                     {% endfor %}
                                 {% endif %}
-                                {% for algo in result['hybrid_algos'] | sort %}
-                                    {{ algo }}{% if not loop.last %}, {% endif %}
-                                {% endfor %}
+                                {% if result['hybrid_algos'] %}
+                                    {% for algo in result['hybrid_algos'] | sort %}
+                                        {{ algo }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             </td>
                           </tr>
                     {% else %}
