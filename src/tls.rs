@@ -80,6 +80,17 @@ struct KeyShareEntry {
     exchange: Vec<u8>,
 }
 
+fn tls_nonpqc_algos_result(
+    scan_nonpqc_algos: bool,
+    nonpqc_algos: Vec<String>,
+) -> Option<Vec<String>> {
+    if scan_nonpqc_algos {
+        Some(nonpqc_algos)
+    } else {
+        None
+    }
+}
+
 pub struct TlsConfig {
     pub default_port: u16,
     pub groups: HashMap<String, TlsGroup>,
@@ -623,6 +634,19 @@ pub async fn tls_scan_target(
         target,
         pqc_supported
     );
+    if !pqc_supported {
+        if scan_nonpqc_algos {
+            log::info!(
+                "TLS scan: {} does not appear to support any configured PQC groups",
+                target
+            );
+        } else {
+            log::info!(
+                "TLS scan: {} does not appear to support any configured PQC groups; non-PQC groups were not tested (rerun with --test-nonpqc-algos to enumerate them)",
+                target
+            );
+        }
+    }
     let ret = ScanResult::Tls {
         targetspec: target.clone(),
         addr: addr,
@@ -630,7 +654,24 @@ pub async fn tls_scan_target(
         pqc_supported: pqc_supported,
         pqc_algos: Some(pqc_algos),
         hybrid_algos: Some(hybrid_algos),
-        nonpqc_algos: Some(nonpqc_algos),
+        nonpqc_algos: tls_nonpqc_algos_result(scan_nonpqc_algos, nonpqc_algos),
     };
     return ret;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::tls_nonpqc_algos_result;
+
+    #[test]
+    fn omits_nonpqc_algos_when_not_scanned() {
+        assert_eq!(tls_nonpqc_algos_result(false, Vec::new()), None);
+    }
+
+    #[test]
+    fn keeps_nonpqc_algos_when_scanned() {
+        let algos = vec!["X25519".to_string(), "SECP256R1".to_string()];
+
+        assert_eq!(tls_nonpqc_algos_result(true, algos.clone()), Some(algos));
+    }
 }
