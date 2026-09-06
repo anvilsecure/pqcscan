@@ -75,11 +75,9 @@
                                         {{ algo }}{% if not loop.last %}, {% endif %}
                                     {% endfor %}
                                 {% endif %}
-                                {% if result['hybrid_algos'] %}
-                                    {% for algo in result['hybrid_algos'] | sort %}
-                                        {{ algo }}{% if not loop.last %}, {% endif %}
-                                    {% endfor %}
-                                {% endif %}
+                                {% for algo in result['hybrid_algos'] | sort %}
+                                    {{ algo }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
                             </td>
                           </tr>
                     {% else %}

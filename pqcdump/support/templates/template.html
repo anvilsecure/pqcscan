@@ -1,0 +1,117 @@
+{% import "macros.html" as macros %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Anvil Secure">
+    <title>pqcdump Results - {{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+      #scrollToTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="scrollToTopBtn" class="btn btn-secondary"><i class="fas fa-arrow-up"></i> Top</button>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+
+        const htmlElement = document.documentElement;
+        const switchElement = document.getElementById('darkModeSwitch');
+        const currentTheme = localStorage.getItem('bsTheme') || 'dark';
+        htmlElement.setAttribute('data-bs-theme', currentTheme);
+        switchElement.checked = currentTheme === 'dark';
+        switchElement.addEventListener('change', function () {
+          if (this.checked) {
+            htmlElement.setAttribute('data-bs-theme', 'dark');
+            localStorage.setItem('bsTheme', 'dark');
+          } else {
+            htmlElement.setAttribute('data-bs-theme', 'light');
+            localStorage.setItem('bsTheme', 'light');
+          }
+        });
+
+        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        window.onscroll = function () {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollToTopBtn.style.display = "block";
+          } else {
+            scrollToTopBtn.style.display = "none";
+          }
+        };
+        scrollToTopBtn.onclick = function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+          {{ macros::show_all_elements() }}
+          {{ macros::reset_filter_settings(type="ssh") }}
+          {{ macros::reset_filter_settings(type="tls") }}
+        });
+      });
+    </script>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">pqcdump Results - Generated at {{ title }}</a>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="darkModeSwitch" checked>
+          <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+        </div>
+      </div>
+    </nav>
+
+    <div class="py-3"></div>
+    <nav>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item active">
+          <a class="nav-link active" id="summary-tab" data-bs-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true" aria-current="page">Summary</a>
+        </li>
+        {% if ssh_hosts_count > 0 %}
+        <li class="nav-item">
+          <a class="nav-link" id="ssh-tab" data-bs-toggle="tab" href="#ssh" role="tab" aria-controls="ssh" aria-selected="false">SSH Results</a>
+        </li>
+        {% endif %}
+        {% if tls_hosts_count > 0 %}
+        <li class="nav-item">
+          <a class="nav-link" id="tls-tab" data-bs-toggle="tab" href="#tls" role="tab" aria-controls="tls" aria-selected="false">TLS Results</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <div class="tab-content">
+      <div class="tab-pane active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+        {% include ["summary.html"] %}
+      </div>
+      {% if ssh_hosts_count > 0 %}
+      <div class="tab-pane fade" id="ssh" role="tabpanel" aria-labelledby="ssh-tab">
+        {% include ["ssh_results.html"] %}
+      </div>
+      {% endif %}
+      {% if tls_hosts_count > 0 %}
+      <div class="tab-pane fade" id="tls" role="tabpanel" aria-labelledby="tls-tab">
+        {% include ["tls_results.html"] %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="py-3"></div>
+    <footer class="text-center mt-auto py-3 navbar navbar-expand-lg bg-body-tertiary">
+      <div class="col-md-12 text-center text-muted">
+        <a href="https://github.com/anvilsecure/pqcutils/">pqcdump</a> - Copyright &copy; 2026 - <a href="https://anvilsecure.com">Anvil Secure</a>
+      </div>
+    </footer>
+
+  </body>
+</html>

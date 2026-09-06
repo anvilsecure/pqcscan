@@ -1,0 +1,84 @@
+{% import "macros.html" as macros %}
+
+<div class="py-3"></div>
+<h3 class="text-center">SSH Scan Results</h3>
+<div class="py-3"></div>
+
+{{ macros::filter_settings(type="ssh") }}
+
+{% for hostname in ssh_hosts %}
+
+  {% if ssh_hosts_pqc[hostname] == PQC_SUPPORTED %}
+    {% set_global has_pqc = true %}
+    {% set_global has_nonpqc = false %}
+  {% else %}
+    {% set_global has_pqc = false %}
+    {% set_global has_nonpqc = true %}
+  {% endif %}
+
+  <div class="container {% if has_pqc %}host_has_pqc{% endif %} {% if has_nonpqc %}host_has_nonpqc{% endif %}">
+
+    <div class="py-3"></div>
+    <div class="row row-gap-3">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>{{ hostname }} - {{ ssh_hosts_pqc[hostname] }}</h5>
+          </div>
+          <div class="card-body">
+
+            <h3>Supported Key Exchange Algorithms</h3>
+            <table class="table table-sm {% if has_pqc %}host_has_pqc{% endif %} {% if has_nonpqc %}host_has_nonpqc{% endif %}">
+              <thead>
+                <tr>
+                  <th width="20%" class="text-center">Name</th>
+                  <th width="60%" class="text-center">Description</th>
+                  <th width="20%" class="text-center">PQC Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for algo in ssh_host_capabilities[hostname] %}
+                <tr>
+                  <td><a href="{{ algo.link }}">{{ algo.name }}</a></td>
+                  <td>{{ algo.description }}</td>
+                  <td>{{ algo.pqc_status }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+            {% if ssh_sessions_results[hostname] %}
+            <h3>Sessions</h3>
+            <table class="table table-sm {% if has_pqc %}host_has_pqc{% endif %} {% if has_nonpqc %}host_has_nonpqc{% endif %}">
+              <thead>
+                <tr>
+                  <th width="20%" class="text-center">Source</th>
+                  <th width="10%" class="text-center">Source Port</th>
+                  <th width="20%" class="text-center">Destination</th>
+                  <th width="10%" class="text-center">Destination Port</th>
+                  <th width="20%" class="text-center">Algorithm</th>
+                  <th width="20%" class="text-center">PQC Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for session in ssh_sessions_results[hostname] %}
+                <tr>
+                  <td>{{ session.source }}</td>
+                  <td>{{ session.source_port }}</td>
+                  <td>{{ session.destination }}</td>
+                  <td>{{ session.destination_port }}</td>
+                  <td>{{ session.algorithm }}</td>
+                  <td>{{ session.pqc_status }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}

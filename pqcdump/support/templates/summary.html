@@ -1,0 +1,81 @@
+<div class="py-3"></div>
+<h3 class="text-center">Summary - {{ filename }}</h3>
+<div class="py-3"></div>
+
+<div class="container">
+  <div class="row row-gap-3 d-flex justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5>Statistics</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <thead class="thead-light">
+              <tr>
+                <th>&nbsp;</th>
+                <th>Total</th>
+                <th>{{ PQC_SUPPORTED }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if total_count > 0 %}
+              <tr>
+                <th>Hosts</th>
+                <td>{{ total_count }}</td>
+                <td>{{ pqc_count }}</td>
+              </tr>
+              {% endif %}
+              {% if ssh_hosts_count > 0 %}
+              <tr>
+                <th>SSH Sessions</th>
+                <td>{{ ssh_sessions_count }}</td>
+                <td>{{ ssh_pqc_supported_count }}</td>
+              </tr>
+              {% endif %}
+              {% if tls_hosts_count > 0 %}
+              <tr>
+                <th>TLS Sessions</th>
+                <td>{{ tls_sessions_count }}</td>
+                <td>{{ tls_pqc_supported_count }}</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="py-3"></div>
+
+<div class="container">
+  <div class="row row-gap-3 d-flex justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5>Scan Statistics</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <thead class="thead-light">
+              <tr>
+                <th>Packets</th>
+                <th>Start</th>
+                <th>End</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ packet_count }}</td>
+                <td>{{ start_time | date(format="%Y-%m-%d %H:%M:%S %Z") }}</td>
+                <td>{{ end_time | date(format="%Y-%m-%d %H:%M:%S %Z") }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
