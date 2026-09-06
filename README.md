@@ -1,45 +1,21 @@
-# pqcscan - Post-Quantum Cryptography Scanner
+# pqcutils - Post-Quantum Cryptography Utilities
 
-*Scan SSH/TLS servers for PQC support*
+A collection of tools for auditing Post-Quantum Cryptography (PQC) support in SSH and TLS traffic, written in Rust by [Anvil Secure](https://anvilsecure.com).
 
-# Overview
+The [USA](https://www.keyfactor.com/blog/nist-drops-new-deadline-for-pqc-transition/), [EU](https://digital-strategy.ec.europa.eu/en/library/recommendation-coordinated-implementation-roadmap-transition-post-quantum-cryptography) and [UK](https://www.ncsc.gov.uk/news/pqc-migration-roadmap-unveiled) have all set deadlines for phasing out non-PQC algorithms completely between 2030–2035. These tools help system administrators and infosec practitioners identify assets in their networks that do not yet support Post-Quantum Cryptography. A great overview about PQC for engineers is being [drafted](https://www.ietf.org/archive/id/draft-ietf-pquip-pqc-engineers-12.html) by the IETF.
 
-**pqcscan** is a small utility, written in Rust, that allows users to scan SSH and TLS servers for their stated support of Post-Quantum Cryptography algorithms. Scan results are written to JSON files. One or more of these result files can be converted into an easily digestible HTML report that can be viewed with a web browser. For sample screenshots look below in this README.
+---
 
-It might help system administrators and infosec practitioners with identifying those assets in their networks that do not support Post-Quantum Cryptography yet. The [USA](https://www.keyfactor.com/blog/nist-drops-new-deadline-for-pqc-transition/), [EU](https://digital-strategy.ec.europa.eu/en/library/recommendation-coordinated-implementation-roadmap-transition-post-quantum-cryptography) and [UK](https://www.ncsc.gov.uk/news/pqc-migration-roadmap-unveiled) have all set deadlines for phasing out non-PQC algorithms completely in between 2030-2035. A great overview about PQC for Engineers is being [drafted](https://www.ietf.org/archive/id/draft-ietf-pquip-pqc-engineers-12.html) by the IETF. It is our hope this initial version of pqcscan can help. Other scanners might, or already have, integrated such support too but having a dedicated tool focussed on one task might be more desirable at times.
+## Tools
 
-To scan simply provide a list of hostnames/IPs and port numbers and chose the type of scan (SSH or TLS). Regarding the supported algorithms that can be identified:
+### [pqcscan](pqcscan/) — Active Scanner
 
-- The list of SSH KEX (key exchange) PQC algorithms was manually put together based on [OpenSSH](https://www.openssh.com/), as well as [OQS-OpenSSH](https://github.com/open-quantum-safe/openssh). A lot of those algorithms are experimental algorithms and will hopefully never be encountered in production but they are useful for testing the tool and seeing if someone is deploying experimental algorithms in production in practice somewhere.
- 
-- For TLS the tool can identify all common and standardized PQC-hybrid and PQC algorithms. Experimental algorithms are right now not supported due to the increase in scanning time. These might be added in the future.
- 
-## Bugs, comments, suggestions
-The code should be somewhat idiomatic Rust, but there will be tons of ways to improve it. From the way the HTML files are now built up and generated to other smaller issues. For more information see the `TODO` file in the repository. All input is welcome! Just send in direct pull requests or bugs/issues via GitHub. You are also welcome to directly email the principal author and maintainer, Vincent Berg, at *gvb@anvilsecure.com*.
- 
-# Installation
-
-## Binary Releases
-There are binary releases for Linux, MacOS and Windows on common architectures on the [releases](https://github.com/anvilsecure/pqcscan/releases) page. Download the files, unzip to your desired location, and run the extracted binary from your shell.
-
-## Building from source
-The implementation is straight forward Rust. You can download a tagged version's source distribution from the [releases](https://github.com/anvilsecure/pqcscan/releases) page. Or simply clone the git repository and then run:
-
-```
-git clone https://github.com/anvilsecure/pqcscan.git
-cd pqcscan
-cargo build --release
-./target/release/pqcscan --help
-```
-
-# Usage
-
-To TLS scan two hosts and combine it in one report do something like the following:
+**pqcscan** actively connects to SSH and TLS servers and queries their advertised PQC support. Provide a list of hostnames or IPs and choose the scan type; results are written to JSON and can be combined into an HTML report.
 
 ```
 pqcscan tls-scan -t gmail.com:443 -o gmail.json
-pqcscan tls-scan -t pq.cloudflareresearch.com:443 -o cloudflare.json
-pqcscan create-report -i gmail.json cloudflare.json -o report.html
+pqcscan ssh-scan -T targets.txt -o ssh.json
+pqcscan create-report -i gmail.json ssh.json -o report.html
 ```
 
 To generate CSV, JSON or XML output for spreadsheet import, asset inventory or
@@ -52,41 +28,40 @@ pqcscan create-report -i gmail.json cloudflare.json --format xml -o report.xml
 ```
 
 You can also create a target list in a file and supply it via `-T`. This works for both `tls-scan` and `ssh-scan`.
+=======
+Use pqcscan when you want to probe live hosts across your network.
+
+---
+
+### [pqcdump](pqcdump/) — Passive PCAP Analyzer
+
+**pqcdump** analyzes existing PCAP capture files and identifies all observed hosts and sessions, determining whether PQC algorithms were used or supported in their SSH and TLS handshakes. Output is a self-contained HTML report.
 
 ```
-echo github.com > targets
-echo 100.126.128.144 >> targets
-pqcscan ssh-scan -T targets -o ssh.json
-pqcscan create-report -i ssh.json -o report.html
+pqcdump capture.pcapng
+pqcdump capture.pcapng -o report.html
 ```
 
-To get more feedback what is going on just the Rust [loglevels](https://docs.rs/env_logger/latest/env_logger/).
+Use pqcdump when you already have captured traffic and want to audit PQC adoption without sending any probes.
+
+---
+
+## Building
+
+Both tools are standard Rust crates. Clone the repository and build the one you need:
 
 ```
-RUST_LOG=debug pqcscan ssh-scan -T targets -o ssh.json
-[2025-06-20T07:49:35Z DEBUG pqcscan::ssh] Started SSH scanning github.com:22
-[2025-06-20T07:49:35Z DEBUG pqcscan::ssh] Started SSH scanning 100.126.128.144:22
-[2025-06-20T07:49:35Z DEBUG pqcscan::ssh] PQC Algorithm supported: sntrup761x25519-sha512
-[2025-06-20T07:49:35Z DEBUG pqcscan::ssh] PQC Algorithm supported: sntrup761x25519-sha512@openssh.com
-[2025-06-20T07:49:35Z DEBUG pqcscan::ssh] Non-PQC Algorithm supported: curve25519-sha256
-[2025-06-20T07:49:35Z DEBUG pqcscan::ssh] Non-PQC Algorithm supported: curve25519-sha256@libssh.org
-...
-[2025-06-20T07:49:35Z INFO  pqcscan::scan] Done scanning. All threads exited.
+git clone https://github.com/anvilsecure/pqcutils.git
+cd pqcutils/pqcscan && cargo build --release
+cd pqcutils/pqcdump && cargo build --release
 ```
 
-For configuring the number of scan threads and other options just use `--help`. 
+Binary releases for Linux, macOS, and Windows are available on the [releases](https://github.com/anvilsecure/pqcutils/releases) page.
 
+## License
 
-# Screenshots
+BSD — see [LICENSE](LICENSE).
 
-## Main Scan Results Overview
+## Contact
 
-![Example Scan Results Main Overview](/doc/pqcscan_results_sample1.png)
-
-## SSH Scan Results Sample
-
-![SSH Scan Results Sample](/doc/sshscan_results_sample1.png)
-
-## TLS Scan Results Sample
-
-![TLS Scan Results Sample](/doc/tlsscan_results_sample1.png)
+All input is welcome via GitHub issues and pull requests. You can also email the principal authors and maintainer, Vincent Berg, at *gvb@anvilsecure.com* and Nicholas O'Shea at *nicholas.oshea@anvilsecure.com*.
